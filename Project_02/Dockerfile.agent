@@ -1,0 +1,18 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Java and basic tools
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk wget curl && \
+    mkdir -p /home/jenkins && \
+    useradd -m -d /home/jenkins -s /bin/bash jenkins && \
+    chown -R jenkins:jenkins /home/jenkins
+
+USER jenkins
+WORKDIR /home/jenkins
+
+# NOTE: We no longer download agent.jar — Jenkins will do it dynamically
+
+ENTRYPOINT ["java", "-jar", "/home/jenkins/agent.jar"]
+
