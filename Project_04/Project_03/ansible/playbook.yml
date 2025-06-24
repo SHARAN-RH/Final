@@ -1,0 +1,31 @@
+- name: Deploy Flask app to Kubernetes
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Copy app files
+      copy:
+        src: ../app/
+        dest: /tmp/app/
+
+    - name: Build Docker image
+      docker_image:
+        name: flask-app
+        tag: local
+        source: build
+        build:
+          path: /tmp/app
+
+    - name: Copy Kubernetes manifests
+      copy:
+        src: ../k8s/
+        dest: /tmp/k8s/
+
+    - name: Apply Deployment
+      command: kubectl apply -f /tmp/k8s/deployment.yaml
+      environment:
+        KUBECONFIG: /home/unknown/.kube/config
+
+    - name: Apply Service
+      command: kubectl apply -f /tmp/k8s/service.yaml
+      environment:
+        KUBECONFIG: /home/unknown/.kube/config
