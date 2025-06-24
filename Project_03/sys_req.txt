@@ -1,0 +1,5 @@
+Docker version 28.2.2, build e6534b4
+minikube version: v1.35.0
+commit: dd5d320e41b5451cdf3c01891bc4e13d189586ed-dirty
+Client Version: v1.33.1
+Kustomize Version: v5.6.0
